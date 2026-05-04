@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OBB | Private Concierge Delivery</title>
+
+  <!-- Fonts: Playfair Display (serif) + Inter (sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* === Luxury Hospitality Aesthetic === */
+    :root {
+      /* Palette — deep, rich, warm */
+      --bg-deep: #0D1117;
+      --bg-charcoal: #1A1D23;
+      --bg-cream: #F5F0E6;
+      --text-cream: #F5F0E6;
+      --text-muted: rgba(245,240,230,0.6);
+      --accent-gold: #D4AF37;
+      --accent-gold-dim: rgba(212,175,55,0.3);
+      --accent-copper: #B87333;
+
+      --font-display: 'Playfair Display', serif;
+      --font-body: 'Inter', sans-serif;
+
+      --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+      --duration-slow: 800ms;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-cream);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 3rem;
+    }
+
+    /* === Typography — generous, editorial === */
+    h1, h2, h3, h4 {
+      font-family: var(--font-display);
+      font-weight: 400;
+      letter-spacing: -0.02em;
+    }
+
+    h1 {
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.1;
+      margin-bottom: 2rem;
+      color: var(--text-cream);
+    }
+
+    h2 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 2.5rem;
+      color: var(--accent-gold);
+    }
+
+    h3 {
+      font-size: 1.5rem;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+      color: var(--text-cream);
+    }
+
+    p {
+      font-size: 1.125rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      font-weight: 300;
+    }
+
+    .eyebrow {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      color: var(--accent-gold);
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    /* === Buttons — elegant, no rounded pills === */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2.5rem;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all var(--duration-slow) var(--ease-smooth);
+      border: none;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary {
+      background: var(--accent-gold);
+      color: var(--bg-deep);
+    }
+
+    .btn-primary:hover {
+      background: var(--text-cream);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(212,175,55,0.3);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-cream);
+      border: 1px solid rgba(245,240,230,0.3);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    /* === Header — minimal, elegant === */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      padding: 1.5rem 0;
+      background: rgba(13,17,23,0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(212,175,55,0.1);
+    }
+
+    .header-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      height: 28px;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.9;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 3rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: color var(--duration-slow) var(--ease-smooth);
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-gold);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--accent-gold);
+      transition: width 0.5s var(--ease-smooth);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .nav-cta {
+      font-size: 0.75rem;
+      padding: 0.75rem 1.5rem;
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      background: transparent;
+    }
+
+    .nav-cta:hover {
+      background: var(--accent-gold);
+      color: var(--bg-deep);
+    }
+
+    /* === Hero — dramatic photography backdrop === */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(13,17,23,0.6) 0%, rgba(13,17,23,0.9) 100%),
+        url('assets/runway2.jpg') center/cover no-repeat;
+      filter: brightness(0.4) contrast(1.2) grayscale(60%);
+      z-index: -2;
+    }
+
+    .hero-glow {
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -1;
+      animation: breathe 15s ease-in-out infinite;
+    }
+
+    @keyframes breathe {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 700px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      max-width: 550px;
+      color: var(--text-muted);
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+
+    /* Hero visual — sculptural robot (photorealistic SVG with gold) */
+    .hero-visual {
+      position: absolute;
+      right: 8%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 450px;
+      height: auto;
+      z-index: 1;
+      filter: drop-shadow(0 20px 60px rgba(0,0,0,0.6));
+    }
+
+    /* === The Problem — "Friction" section === */
+    .friction-section {
+      background: var(--bg-charcoal);
+      padding: 8rem 0;
+      position: relative;
+    }
+
+    .friction-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-gold), transparent);
+      opacity: 0.3;
+    }
+
+    .friction-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 4rem;
+    }
+
+    .friction-card {
+      background: rgba(245,240,230,0.02);
+      border: 1px solid rgba(245,240,230,0.08);
+      padding: 3rem;
+      transition: all 0.6s var(--ease-smooth);
+      position: relative;
+    }
+
+    .friction-card:hover {
+      background: rgba(245,240,230,0.04);
+      border-color: var(--accent-gold-dim);
+      transform: translateY(-8px);
+    }
+
+    .friction-number {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      color: var(--accent-gold);
+      opacity: 0.3;
+      margin-bottom: 1rem;
+    }
+
+    .friction-card h3 {
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: var(--text-cream);
+    }
+
+    .friction-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    /* === The Approach — How It Works === */
+    #approach {
+      padding: 8rem 0;
+      background: var(--bg-deep);
+      position: relative;
+    }
+
+    .approach-intro {
+      max-width: 700px;
+      margin-bottom: 4rem;
+      font-size: 1.25rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+    }
+
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+      counter-reset: step;
+    }
+
+    .step-card {
+      position: relative;
+      padding: 2.5rem;
+      border-left: 1px solid rgba(212,175,55,0.2);
+      transition: all 0.6s var(--ease-smooth);
+    }
+
+    .step-card:hover {
+      border-left-color: var(--accent-gold);
+      transform: translateX(8px);
+    }
+
+    .step-card::before {
+      counter-increment: step;
+      content: '0' counter(step);
+      position: absolute;
+      top: -1.5rem;
+      left: 2rem;
+      font-family: var(--font-display);
+      font-size: 4rem;
+      font-weight: 700;
+      color: var(--accent-gold);
+      opacity: 0.15;
+    }
+
+    .step-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.75rem;
+      font-weight: 500;
+      color: var(--text-cream);
+      margin-bottom: 1.5rem;
+    }
+
+    .step-card p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+    }
+
+    /* === Experience — "What it feels like" === */
+    .experience-section {
+      background: var(--bg-charcoal);
+      padding: 8rem 0;
+    }
+
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .experience-text h2 {
+      margin-bottom: 2rem;
+    }
+
+    .experience-feelings {
+      list-style: none;
+      margin-top: 2rem;
+    }
+
+    .experience-feelings li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: var(--text-muted);
+    }
+
+    .experience-feelings li::before {
+      content: '—';
+      color: var(--accent-gold);
+      font-size: 1.5rem;
+      line-height: 1;
+    }
+
+    .experience-visual {
+      position: relative;
+    }
+
+    .experience-visual img {
+      width: 100%;
+      height: auto;
+      border-radius: 0;
+      filter: grayscale(30%) contrast(1.1);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    /* === The Promise — Risk Reversal === */
+    .promise-section {
+      padding: 8rem 0;
+      background: var(--bg-deep);
+    }
+
+    .promise-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 3rem;
+      margin-top: 4rem;
+    }
+
+    .promise-item {
+      padding: 2.5rem;
+      border: 1px solid rgba(212,175,55,0.15);
+      transition: all 0.6s var(--ease-smooth);
+    }
+
+    .promise-item:hover {
+      border-color: var(--accent-gold);
+      background: rgba(212,175,55,0.03);
+    }
+
+    .promise-icon {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+
+    .promise-item h4 {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: var(--accent-gold);
+    }
+
+    .promise-item p {
+      font-size: 1rem;
+      line-height: 1.7;
+    }
+
+    /* === CTA — Exclusive invitation === */
+    .cta-section {
+      padding: 10rem 0;
+      text-align: center;
+      background: linear-gradient(180deg, var(--bg-deep) 0%, var(--bg-charcoal) 100%);
+      position: relative;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-box {
+      position: relative;
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 4rem;
+      border: 1px solid rgba(212,175,55,0.2);
+    }
+
+    .cta-box h2 {
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-box p {
+      font-size: 1.15rem;
+      margin-bottom: 2.5rem;
+      color: var(--text-muted);
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+    }
+
+    /* === Footer — subtle, understated === */
+    footer {
+      padding: 3rem 0;
+      border-top: 1px solid rgba(212,175,55,0.1);
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+      list-style: none;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.3s var(--ease-smooth);
+    }
+
+    .footer-links a:hover {
+      color: var(--accent-gold);
+    }
+
+    /* === Animations — subtle fade, no bouncy stuff === */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 1.2s var(--ease-smooth), transform 1.2s var(--ease-smooth);
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stagger-1 { transition-delay: 0.15s; }
+    .stagger-2 { transition-delay: 0.3s; }
+    .stagger-3 { transition-delay: 0.45s; }
+    .stagger-4 { transition-delay: 0.6s; }
+
+    /* === Responsive === */
+    @media (max-width: 900px) {
+      .friction-grid, .steps-container, .promise-grid, .experience-grid {
+        grid-template-columns: 1fr;
+      }
+      .hero-visual {
+        display: none;
+      }
+      .hero {
+        min-height: auto;
+        padding-bottom: 4rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      h1 { font-size: 2.2rem; }
+      .container { padding: 0 1.5rem; }
+      .hero-cta-group { flex-direction: column; }
+      .btn { width: 100%; }
+      .cta-buttons { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="container header-inner">
+      <svg class="logo" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <text x="0" y="40" font-family="Playfair Display, serif" font-weight="600" font-size="42" fill="#F5F0E6" letter-spacing="0.1em">OBB</text>
+        <line x1="130" y1="15" x2="130" y2="35" stroke="#D4AF37" stroke-width="1"/>
+      </svg>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#approach">The Approach</a></li>
+          <li><a href="#experience">The Experience</a></li>
+          <li><a href="#promise">The Promise</a></li>
+        </ul>
+      </nav>
+      <a href="#invite" class="btn nav-cta">Inquire</a>
+    </div>
+  </header>
+
+  <!-- Hero — invitation only === -->
+  <section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-glow"></div>
+    <div class="container">
+      <div class="hero-content fade-in">
+        <span class="eyebrow">Private Concierge</span>
+        <h1>Where discretion meets autonomous service.</h1>
+        <p>For estates that demand the exceptional. OBB delivers a fully managed robotic delivery infrastructure — silent, seamless, and reserved for the privileged few.</p>
+        <div class="hero-cta-group">
+          <a href="#invite" class="btn btn-primary">Request Private Consultation</a>
+          <a href="#approach" class="btn btn-secondary">Explore The Approach</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sculptural robot SVG — elegant, metallic, gold-accented -->
+    <svg class="hero-visual fade-in stagger-1" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="metalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#E8E4DE"/>
+          <stop offset="40%" stop-color="#C0BBA7"/>
+          <stop offset="60%" stop-color="#D4D0C6"/>
+          <stop offset="100%" stop-color="#B8B4AA"/>
+        </linearGradient>
+        <linearGradient id="goldAccent" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#D4AF37"/>
+          <stop offset="50%" stop-color="#F7E7CE"/>
+          <stop offset="100%" stop-color="#B87333"/>
+        </linearGradient>
+        <filter id="luxShadow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="20" stdDeviation="20" flood-color="#000" flood-opacity="0.4"/>
+        </filter>
+      </defs>
+
+      <!-- Body — brushed metal -->
+      <rect x="160" y="180" width="180" height="200" rx="60" ry="60" fill="url(#metalGrad)" stroke="#8A8579" stroke-width="2" filter="url(#luxShadow)"/>
+
+      <!-- Head -->
+      <rect x="170" y="100" width="160" height="130" rx="45" ry="45" fill="url(#metalGrad)" stroke="#8A8579" stroke-width="2"/>
+
+      <!-- Eye ring — gold bezel -->
+      <circle cx="250" cy="140" r="30" fill="none" stroke="url(#goldAccent)" stroke-width="3"/>
+      <circle cx="250" cy="140" r="18" fill="#0D1117" stroke="url(#goldAccent)" stroke-width="2"/>
+      <circle cx="250" cy="140" r="6" fill="#D4AF37"/>
+
+      <!-- Antenna — gold tip -->
+      <line x1="250" y1="100" x2="250" y2="55" stroke="#8A8579" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="250" cy="50" r="6" fill="url(#goldAccent)"/>
+
+      <!-- Wheels — brushed hubs -->
+      <circle cx="190" cy="400" r="40" fill="#2A2D33" stroke="#8A8579" stroke-width="2"/>
+      <circle cx="190" cy="400" r="20" fill="url(#metalGrad)"/>
+      <circle cx="190" cy="400" r="8" fill="url(#goldAccent)"/>
+
+      <circle cx="310" cy="400" r="40" fill="#2A2D33" stroke="#8A8579" stroke-width="2"/>
+      <circle cx="310" cy="400" r="20" fill="url(#metalGrad)"/>
+      <circle cx="310" cy="400" r="8" fill="url(#goldAccent)"/>
+
+      <!-- Locker strips — gold accent -->
+      <rect x="130" y="210" width="10" height="80" rx="5" fill="url(#goldAccent)"/>
+      <rect x="360" y="210" width="10" height="80" rx="5" fill="url(#goldAccent)"/>
+    </svg>
+  </section>
+
+  <!-- Friction — property pain points (not restaurant!) -->
+  <section class="friction-section" id="chaos">
+    <div class="container">
+      <span class="eyebrow fade-in">The Friction</span>
+      <h2 class="fade-in stagger-1">What disrupts exceptional living</h2>
+      <div class="friction-grid">
+        <div class="friction-card fade-in stagger-1">
+          <div class="friction-number">500+</div>
+          <h3>Daily intrusions</h3>
+          <p>Delivery vehicles cross your threshold — noisy, polluting, unpredictable. Your residents' tranquility compromised by commercial traffic.</p>
+        </div>
+        <div class="friction-card fade-in stagger-2">
+          <div class="friction-number">23 min</div>
+          <h3>Staff diverted daily</h3>
+          <p>Your facility team becomes a delivery service — tracking packages, handling complaints, managing chaos instead of upholding standards.</p>
+        </div>
+        <div class="friction-card fade-in stagger-3">
+          <div class="friction-number">$0</div>
+          <h3>Value captured</h3>
+          <p>While delivery platforms grow richer on your property's foot traffic, you see nothing but increased operational burden.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Approach — How It Works === -->
+  <section id="approach">
+    <div class="container">
+      <span class="eyebrow fade-in">The Approach</span>
+      <h2 class="fade-in stagger-1">Three movements of service</h2>
+      <p class="approach-intro fade-in stagger-2">
+        OBB integrates as an invisible, autonomous layer beneath your estate's existing ecosystem. No disruption. Only elevation.
+      </p>
+      <div class="steps-container">
+        <div class="step-card fade-in stagger-1">
+          <h3>01. Install the Infrastructure</h3>
+          <p>Locker stations become subtle architectural features. Robots dock and charge in service corridors, out of sight. Integration with your tenant portal is seamless — your brand, your experience, our technology.</p>
+        </div>
+        <div class="step-card fade-in stagger-2">
+          <h3>02. Curate the Partners</h3>
+          <p>Select merchants — preferred restaurants, premium grocers, specialty retailers — gain access to your residents. They join a curated ecosystem, not an open marketplace. Quality is assured.</p>
+        </div>
+        <div class="step-card fade-in stagger-3">
+          <h3>03. Orchestrate the Experience</h3>
+          <p>Residents order through your app. Robots collect, deliver to locker, notify with quiet elegance. You retain complete control. We remain invisible. A new revenue stream flows, effortlessly.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience — what it feels like === -->
+  <section class="experience-section" id="experience">
+    <div class="container">
+      <div class="experience-grid">
+        <div class="experience-text">
+          <span class="eyebrow fade-in">The Experience</span>
+          <h2 class="fade-in stagger-1">Effortless. Discreet. Elevated.</h2>
+          <p class="fade-in stagger-2">
+            This is not a convenience feature. This is a statement. A signal that your property operates at a different standard — where even the last meter is curated.
+          </p>
+          <ul class="experience-feelings fade-in stagger-3">
+            <li>Tranquility — no more courier chaos in your lobbies</li>
+            <li>Privilege — residents enjoy a service unavailable elsewhere</li>
+            <li>Seamlessness — technology that works without being seen</li>
+            <li>Prestige — association with cutting-edge, yet understated innovation</li>
+          </ul>
+        </div>
+    <div class="experience-visual fade-in stagger-4">
+      <!-- Using runway1.jpg as elegant architectural photography -->
+      <img src="assets/runway1.jpg" alt="Elegant corridor with soft lighting" loading="lazy" />
+    </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Promise — risk reversal === -->
+  <section class="promise-section" id="promise">
+    <div class="container">
+      <span class="eyebrow fade-in">The Promise</span>
+      <h2 class="fade-in stagger-1">Excellence in every detail</h2>
+      <div class="promise-grid">
+        <div class="promise-item fade-in stagger-1">
+          <div class="promise-icon">✦</div>
+          <h4>Precision engineering</h4>
+          <p>Centimeter-grade docking in controlled environments. No public interfaces. No unpredictable variables. Only flawless repetition.</p>
+        </div>
+        <div class="promise-item fade-in stagger-2">
+          <div class="promise-icon">✦</div>
+          <h4>Discreet operation</h4>
+          <p>Quiet electric drivetrains. Subtle lighting. Service corridors, not lobbies. Your residents' peace is never interrupted.</p>
+        </div>
+        <div class="promise-item fade-in stagger-3">
+          <div class="promise-icon">✦</div>
+          <h4>White-glove monitoring</h4>
+          <p>24/7 human oversight from our discreet command center. We see all, intervene only when necessary. You never have to.</p>
+        </div>
+        <div class="promise-item fade-in stagger-4">
+          <div class="promise-icon">✦</div>
+          <h4>Exclusive partnership</h4>
+          <p>We work with a limited number of properties per market. Exclusivity ensures service excellence and preserves the premium nature of the offering.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA — invitation only === -->
+  <section class="cta-section" id="invite">
+    <div class="container">
+      <div class="cta-box fade-in">
+        <span class="eyebrow">Private Consultation</span>
+        <h2>Begin a private conversation</h2>
+        <p>
+          OBB is available by invitation only. We partner with a select portfolio of premier estates in Hong Kong. If you represent a property of ≥150 units or a high-end commercial campus, we welcome your inquiry.
+        </p>
+        <div class="cta-buttons">
+          <a href="mailto:andrew.leung@dashingrobo.com?subject=Private%20Consultation%20Request" class="btn btn-primary">Request Private Consultation</a>
+        </div>
+        <p style="margin-top: 2rem; font-size: 0.9rem; color: var(--text-muted);">
+          All conversations are confidential. Detailed proposal provided under NDA.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer === -->
+  <footer>
+    <div class="container">
+      <ul class="footer-links">
+        <li><a href="#approach">The Approach</a></li>
+        <li><a href="#experience">The Experience</a></li>
+        <li><a href="#promise">The Promise</a></li>
+        <li><a href="mailto:inquiries@onbotbot.com">Inquire</a></li>
+      </ul>
+      <p>© 2026 ANROBO LTD. OBB — By invitation only. Autonomous service for exceptional properties.</p>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.fade-in').forEach((el) => observer.observe(el));
+
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
